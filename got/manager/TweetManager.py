@@ -35,6 +35,7 @@ class TweetManager:
 				tweetPQ = PyQuery(tweetHTML)
 				tweet = models.Tweet()
 				
+				conversation = tweetPQ.attr("data-conversation-id");
 				usernameTweet = tweetPQ("span:first.username.u-dir b").text();
 				txt = re.sub(r"\s+", " ", tweetPQ("p.js-tweet-text").text().replace('# ', '#').replace('@ ', '@'));
 				retweets = int(tweetPQ("span.ProfileTweet-action--retweet span.ProfileTweet-actionCount").attr("data-tweet-stat-count").replace(",", ""));
@@ -48,6 +49,7 @@ class TweetManager:
 				if len(geoSpan) > 0:
 					geo = geoSpan.attr('title')
 				
+				tweet.conversation = conversation
 				tweet.id = id
 				tweet.permalink = 'https://twitter.com' + permalink
 				tweet.username = usernameTweet
